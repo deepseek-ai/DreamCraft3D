@@ -1,0 +1,133 @@
+name: "dreamcraft3d-geometry"
+tag: "${rmspace:${system.prompt_processor.prompt},_}"
+exp_root_dir: "outputs"
+seed: 0
+
+data_type: "single-image-datamodule"
+data:
+  image_path: ./load/images/hamburger_rgba.png
+  height: 1024
+  width: 1024
+  default_elevation_deg: 0.0
+  default_azimuth_deg: 0.0
+  default_camera_distance: 3.8
+  default_fovy_deg: 20.0
+  requires_depth: ${cmaxgt0orcmaxgt0:${system.loss.lambda_depth},${system.loss.lambda_depth_rel}}
+  requires_normal: ${cmaxgt0:${system.loss.lambda_normal}}
+  use_mixed_camera_config: false
+  random_camera:
+    height: 1024
+    width: 1024
+    batch_size: 1
+    eval_height: 1024
+    eval_width: 1024
+    eval_batch_size: 1
+    elevation_range: [-10, 45]
+    azimuth_range: [-180, 180]
+    camera_distance_range: [3.8, 3.8]
+    fovy_range: [20.0, 20.0] # Zero123 has fixed fovy
+    progressive_until: 0
+    camera_perturb: 0.0
+    center_perturb: 0.0
+    up_perturb: 0.0
+    eval_elevation_deg: ${data.default_elevation_deg}
+    eval_camera_distance: ${data.default_camera_distance}
+    eval_fovy_deg: ${data.default_fovy_deg}
+    batch_uniform_azimuth: false
+    n_val_views: 40
+    n_test_views: 120
+
+system_type: "dreamcraft3d-system"
+system:
+  stage: geometry
+  use_mixed_camera_config: ${data.use_mixed_camera_config}
+  geometry_convert_from: ???
+  geometry_convert_inherit_texture: true
+  geometry_type: "tetrahedra-sdf-grid"
+  geometry:
+    radius: 2.0 # consistent with coarse
+    isosurface_resolution: 128
+    isosurface_deformable_grid: true
+
+  material_type: "no-material"
+  material:
+    n_output_dims: 3
+
+  background_type: "solid-color-background"
+
+  renderer_type: "nvdiff-rasterizer"
+  renderer:
+    context_type: cuda
+
+  prompt_processor_type: "deep-floyd-prompt-processor"
+  prompt_processor:
+    pretrained_model_name_or_path: "DeepFloyd/IF-I-XL-v1.0"
+    prompt: ???
+    use_perp_neg: true
+
+  guidance_type: "deep-floyd-guidance"
+  guidance:
+    pretrained_model_name_or_path: "DeepFloyd/IF-I-XL-v1.0"
+    guidance_scale: 20
+    min_step_percent: 0.02
+    max_step_percent: 0.5
+
+  guidance_3d_type: "stable-zero123-guidance"
+  guidance_3d:
+    pretrained_model_name_or_path: "./load/zero123/stable_zero123.ckpt"
+    pretrained_config: "./load/zero123/sd-objaverse-finetune-c_concat-256.yaml"
+    cond_image_path: ${data.image_path}
+    cond_elevation_deg: ${data.default_elevation_deg}
+    cond_azimuth_deg: ${data.default_azimuth_deg}
+    cond_camera_distance: ${data.default_camera_distance}
+    guidance_scale: 5.0
+    min_step_percent: 0.2  # (start_iter, start_val, end_val, end_iter)
+    max_step_percent: 0.5
+
+  freq:
+    n_ref: 2
+    ref_only_steps: 0
+    ref_or_guidance: "accumulate"
+    no_diff_steps: 0
+    guidance_eval: 0
+    n_rgb: 4
+
+  loggers:
+    wandb:
+      enable: false
+      project: "threestudio"
+
+  loss:
+    lambda_sd: 0.1
+    lambda_3d_sd: 0.1
+    lambda_rgb: 1000.0
+    lambda_mask: 100.0
+    lambda_mask_binary: 0.0
+    lambda_depth: 0.0
+    lambda_depth_rel: 0.0
+    lambda_normal: 0.0
+    lambda_normal_smooth: 0.
+    lambda_3d_normal_smooth: 0.
+    lambda_normal_consistency: [1000,10.0,1,2000]
+    lambda_laplacian_smoothness: 0.0
+
+  optimizer:
+    name: Adam
+    args:
+      lr: 0.005
+      betas: [0.9, 0.99]
+      eps: 1.e-15
+
+trainer:
+  max_steps: 5000
+  log_every_n_steps: 1
+  num_sanity_val_steps: 0
+  val_check_interval: 200
+  enable_progress_bar: true
+  precision: 32
+  strategy: "ddp_find_unused_parameters_true"
+
+checkpoint:
+  save_last: true
+  save_top_k: -1
+  every_n_train_steps: ${trainer.max_steps}

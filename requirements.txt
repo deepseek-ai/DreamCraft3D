@@ -1,0 +1,35 @@
+lightning==2.0.0
+omegaconf==2.3.0
+jaxtyping
+typeguard
+diffusers<=0.23.0
+transformers
+accelerate
+opencv-python
+tensorboard
+matplotlib
+imageio>=2.28.0
+imageio[ffmpeg]
+libigl
+xatlas
+trimesh[easy]
+networkx
+pysdf
+PyMCubes
+wandb
+gradio
+
+# deepfloyd
+xformers
+bitsandbytes
+sentencepiece
+safetensors
+huggingface_hub
+
+# for zero123
+einops
+kornia
+taming-transformers-rom1504
+
+#controlnet
+controlnet_aux
