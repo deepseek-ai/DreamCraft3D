@@ -79,7 +79,26 @@ pip install ninja
 ```sh
 pip install -r requirements.txt
 ```
+
+### Download pre-trained models
+- **Zero123**. We use the newest `stable-zero123.ckpt` by default. You can download it [here](https://huggingface.co/stabilityai/stable-zero123) into `load/zero123/`. In the paper we use `zero123-xl.ckpt` and you can download it by
+```sh
+cd load/zero123
+bash download.sh
+```
+
+- **Omnidata**. We use [Omnidata](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) for depth and normal predition in `preprocess_image.py` (copyed from [stable-dreamfusion](https://github.com/ashawkey/stable-dreamfusion)).
+```sh
+cd load/omnidata
+gdown '1Jrh-bRnJEjyMCS7f-WsaFlccfPjJPPHI&confirm=t' # omnidata_dpt_depth_v2.ckpt
+gdown '1wNxVO4vVbDEMEpnAi_jwQObf2MFodcBR&confirm=t' # omnidata_dpt_normal_v2.ckpt
+```
+
 ## Quickstart
+Preprocess the input image to move background and obtain its depth and normal image.
+```sh
+python preprocess_image.py /path/to/image.png --recenter
+```
 Our model is trained in multiple stages. You can run it by
 ```sh
 prompt="a brightly colored mushroom growing on a log"
@@ -148,11 +167,12 @@ python launch.py --config configs/dreamcraft3d-coarse-nerf.yaml --train system.p
 ## Todo
 
 - [x] Release the reorganized code.
+- [ ] Realse the test image data.
 - [ ] Clean the original dreambooth training code.
 - [ ] Provide some running results and checkpoints.
 
 ## Credits
-This code is built on the amazing open-source [threestudio-project](https://github.com/threestudio-project/threestudio).
+This code is built on the amazing open-source projects [threestudio-project](https://github.com/threestudio-project/threestudio) and [stable-dreamfusion](https://github.com/ashawkey/stable-dreamfusion).
 
 ## Related links
 
