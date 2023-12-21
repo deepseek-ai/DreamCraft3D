@@ -75,13 +75,11 @@ class StableDiffusionPromptProcessor(PromptProcessor):
         tokenizer = AutoTokenizer.from_pretrained(
             pretrained_model_name_or_path,
             subfolder="tokenizer",
-            local_files_only=True,
         )
         text_encoder = CLIPTextModel.from_pretrained(
             pretrained_model_name_or_path,
             subfolder="text_encoder",
             device_map="auto",
-            local_files_only=True,
         )
 
         with torch.no_grad():

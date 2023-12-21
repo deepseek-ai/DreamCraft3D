@@ -58,7 +58,6 @@ class DeepFloydPromptProcessor(PromptProcessor):
         tokenizer = T5Tokenizer.from_pretrained(
             pretrained_model_name_or_path,
             subfolder="tokenizer",
-            local_files_only=True
         )
         text_encoder = T5EncoderModel.from_pretrained(
             pretrained_model_name_or_path,
@@ -67,7 +66,6 @@ class DeepFloydPromptProcessor(PromptProcessor):
             load_in_8bit=True,
             variant="8bit",
             device_map="auto",
-            local_files_only=True
         )
         with torch.no_grad():
             text_inputs = tokenizer(
