@@ -163,6 +163,20 @@ python launch.py --config configs/dreamcraft3d-coarse-nerf.yaml --train system.p
 ## Tips
 - **Memory Usage**. We run the default configs on 40G A100 GPUs. For reducing memory usage, you can reduce the rendering resolution of NeuS by ```data.height=128 data.width=128 data.random_camera.height=128 data.random_camera.width=128```. You can also reduce resolution for other stages in the same way.
 
+## Export Meshes
+You can export the textured mesh obj using the following scipt:
+```sh
+# this uses default mesh-exporter configurations which exports obj+mtl
+python launch.py --config path/to/trial/dir/configs/parsed.yaml --export --gpu 0 resume=path/to/trial/dir/ckpts/last.ckpt system.exporter_type=mesh-exporter
+```
+<details>
+<summary>
+Visualization of the example OBJ File.
+</summary>
+<p align="center">
+    <img src="assets/mesh_meshlab.jpg">
+</p>
+</details>
 
 ## Todo
 
