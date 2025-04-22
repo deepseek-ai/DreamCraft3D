@@ -1,5 +1,7 @@
 # DreamCraft3D
 
+<a href="https://trendshift.io/repositories/4231" target="_blank"><img src="https://trendshift.io/api/badge/repositories/4231" alt="deepseek-ai%2FDreamCraft3D | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+
 [**Paper**](https://arxiv.org/abs/2310.16818) | [**Project Page**](https://mrtornado24.github.io/DreamCraft3D/) | [**Youtube video**](https://www.youtube.com/watch?v=0FazXENkQms) | [**Replicate demo**](https://replicate.com/jd7h/dreamcraft3d)
 
 Official implementation of DreamCraft3D: Hierarchical 3D Generation with Bootstrapped Diffusion Prior
@@ -21,6 +23,9 @@ renderings, advancing the state-of-the-art in 3D content generation.*
 <p align="center">
     <img src="assets/repo_static_v2.png">
 </p>
+
+## News
+- 2024.10: We release [DreamCraft3D++](https://dreamcraft3dplus.github.io/), featuring significantly enhanced 3D generation quality and efficiency.
 
 
 ## Method Overview
@@ -189,7 +194,7 @@ Visualization of the example OBJ File.
 This code is built on the amazing open-source projects [threestudio-project](https://github.com/threestudio-project/threestudio) and [stable-dreamfusion](https://github.com/ashawkey/stable-dreamfusion).
 
 ## Related links
-
+- [DreamCraft3D++](https://dreamcraft3dplus.github.io/)
 - [DreamFusion](https://dreamfusion3d.github.io/)
 - [Magic3D](https://research.nvidia.com/labs/dir/magic3d/)
 - [Make-it-3D](https://make-it-3d.github.io/)
@@ -205,5 +210,11 @@ This code is built on the amazing open-source projects [threestudio-project](htt
   author={Sun, Jingxiang and Zhang, Bo and Shao, Ruizhi and Wang, Lizhen and Liu, Wen and Xie, Zhenda and Liu, Yebin},
   journal={arXiv preprint arXiv:2310.16818},
   year={2023}
+}
+@article{sun2024dreamcraft3d++,
+  title={DreamCraft3D++: Efficient Hierarchical 3D Generation with Multi-Plane Reconstruction Model},
+  author={Sun, Jingxiang and Peng, Cheng and Shao, Ruizhi and Guo, Yuan-Chen and Zhao, Xiaochen and Li, Yangguang and Cao, Yanpei and Zhang, Bo and Liu, Yebin},
+  journal={arXiv preprint arXiv:2410.12928},
+  year={2024}
 }
 ```
